@@ -18,6 +18,7 @@ export const getCompany = async (id) => {
     }
   `;
   const { company } = await client.request(query, { id });
+  console.log(company);
   return company;
 };
 

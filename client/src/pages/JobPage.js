@@ -6,14 +6,28 @@ import { getJob } from "../lib/graphql/queries";
 
 function JobPage() {
   const { jobId } = useParams();
-  const [job, setJob] = useState();
+  const [state, setState] = useState({
+    job: null,
+    loading: true,
+    error: false,
+  });
 
   useEffect(() => {
-    getJob(jobId).then(setJob);
+    (async () => {
+      try {
+        const job = await getJob(jobId);
+        setState({ job, loading: false, error: false });
+      } catch (error) {
+        setState({ job: null, loading: false, error: true });
+      }
+    })();
   }, [jobId]);
 
-  if (!job) {
+  const { job, loading, error } = state;
+  if (loading) {
     return <div>Loading...</div>;
+  } else if (error) {
+    return <div>Data unavailable!</div>;
   }
   return (
     <div>
