@@ -18,6 +18,7 @@ function JobPage() {
         const job = await getJob(jobId);
         setState({ job, loading: false, error: false });
       } catch (error) {
+        console.log(error);
         setState({ job: null, loading: false, error: true });
       }
     })();
@@ -27,7 +28,7 @@ function JobPage() {
   if (loading) {
     return <div>Loading...</div>;
   } else if (error) {
-    return <div>Data unavailable!</div>;
+    return <div className="has-text-danger">Data unavailable!</div>;
   }
   return (
     <div>
